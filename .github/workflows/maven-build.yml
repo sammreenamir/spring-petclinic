@@ -70,13 +70,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build with Maven
-        run: ./mvnw -X -B package
-
-      - name: Archive test reports
-        uses: actions/upload-artifact@v3
-        with:
-          name: surefire-reports
-          path: target/surefire-reports
+        run: ./mvnw clean package -DskipTests
 
   test:
     runs-on: self-hosted
@@ -129,7 +123,7 @@ jobs:
         run: |
           echo "Waiting for application to start..."
           for i in {1..30}; do
-            if curl -s http://$DEPLOY_SERVER:$DEPLOY_PORT > /dev/null; then
+            if curl -s http://103.172.26.37:8080 > /dev/null; then
               echo "Application is up!"
               break
             else
